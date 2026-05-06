@@ -1,3 +1,4 @@
+using System.Linq;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -5,6 +6,7 @@ using RhythmRift;
 using RiftOfTheNecroManager;
 using Shared.Leaderboard;
 using Shared.TrackSelection;
+using UnityEngine;
 
 namespace CustomFC;
 
@@ -25,4 +27,6 @@ public class CustomFCPlugin : BaseUnityPlugin
     {
         harmony.UnpatchSelf();
     }
+
+    internal static Sprite FCSprite;
 }

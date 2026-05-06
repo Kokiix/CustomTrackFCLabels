@@ -34,5 +34,8 @@
     <Reference Include="RiftOfTheNecroManager">
       <HintPath>lib/RiftOfTheNecroManager.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>lib/UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
