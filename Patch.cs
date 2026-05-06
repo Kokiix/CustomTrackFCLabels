@@ -17,17 +17,15 @@ public static class CustomTrackSelectionPatch
     public static void SetDifficulty(CustomTrackSelectionOption __instance, Difficulty selectedDifficulty)
     {
         Transform FCLabel = __instance.transform.Find("BounceContainer/Background/FCTag(Clone)");
-        if (FCLabel)
-        {
-            FCLabel.gameObject.SetActive(PlayerDataUtil.GetWasFullClearedByDifficulty(__instance._levelId, selectedDifficulty));
-        }
-        else
+        if (FCLabel == null)
         {
             if (!CustomFCPlugin.BaseFCLabel)
                 CreateBaseFCLabel();
 
-            InstantiateFCLabel(parent: __instance.transform.Find("BounceContainer/Background"));
+            FCLabel = InstantiateFCLabel(parent: __instance.transform.Find("BounceContainer/Background"));
         }
+
+        FCLabel.gameObject.SetActive(PlayerDataUtil.GetWasFullClearedByDifficulty(__instance._levelId, selectedDifficulty));
     }
 
     private static void CreateBaseFCLabel()
@@ -62,7 +60,7 @@ public static class CustomTrackSelectionPatch
         CustomFCPlugin.BaseFCLabel = myFCTag;
     }
 
-    private static void InstantiateFCLabel(Transform parent)
+    private static Transform InstantiateFCLabel(Transform parent)
     {
         // Values are copied from inspecting object in base game..
         GameObject FCInstance = Object.Instantiate(CustomFCPlugin.BaseFCLabel);
@@ -76,6 +74,8 @@ public static class CustomTrackSelectionPatch
         rect.anchoredPosition = new Vector2(-0.5136f, -0.93f);
         // ..with exception of rotation, as the shape of customs requires a tiny bit more rotation (0.5f)
         rect.localEulerAngles = new Vector3(0f, 0f, 360f);
+
+        return FCInstance.transform;
     }
 }
 
