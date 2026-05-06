@@ -28,5 +28,5 @@ public class CustomFCPlugin : BaseUnityPlugin
         harmony.UnpatchSelf();
     }
 
-    internal static Sprite FCSprite;
+    internal static GameObject FCObject;
 }
