@@ -47,7 +47,7 @@ public static class CustomTrackSelectionPatch
             tmp.enableAutoSizing = false;
             tmp.fontStyle = FontStyles.Italic | FontStyles.UpperCase;
             tmp.color = new Color(1, 1, 1);
-
+            tmp.margin = new Vector4(40, 5, 0, 0); // Hand tuned!
 
             CustomFCPlugin.FCObject = myFCTag;
         }
