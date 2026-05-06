@@ -44,6 +44,7 @@ public static class CustomTrackSelectionPatch
         GameObject txtObj = new("FCTag_text", typeof(RectTransform));
         txtObj.transform.SetParent(myFCTag.transform);
 
+        // Values are copied from inspecting object in base game..
         TextMeshProUGUI tmp = txtObj.AddComponent<TextMeshProUGUI>();
         tmp.text = "FULL COMBO!";
         tmp.alignment = TextAlignmentOptions.Center;
@@ -54,13 +55,16 @@ public static class CustomTrackSelectionPatch
         tmp.enableAutoSizing = false;
         tmp.fontStyle = FontStyles.Italic | FontStyles.UpperCase;
         tmp.color = new Color(1, 1, 1);
-        tmp.margin = new Vector4(40, 5, 0, 0); // Hand tuned!
+        // ..with exception of margin, as rotation below likely messed it up. 
+        // This had to be hand tuned to nudge text into center from left
+        tmp.margin = new Vector4(40, 5, 0, 0);
 
         CustomFCPlugin.BaseFCLabel = myFCTag;
     }
 
     private static void InstantiateFCLabel(Transform parent)
     {
+        // Values are copied from inspecting object in base game..
         GameObject FCInstance = Object.Instantiate(CustomFCPlugin.BaseFCLabel);
         FCInstance.transform.SetParent(parent);
         FCInstance.SetActive(false);
@@ -69,8 +73,9 @@ public static class CustomTrackSelectionPatch
         rect.anchorMin = new Vector2(0.991f, 0.9116f);
         rect.anchorMax = new Vector2(0.991f, 0.9116f);
         rect.sizeDelta = new Vector2(239.0032f, 28.9733f);
-        rect.localEulerAngles = new Vector3(0f, 0f, 360f);
         rect.anchoredPosition = new Vector2(-0.5136f, -0.93f);
+        // ..with exception of rotation, as the shape of customs requires a tiny bit more rotation (0.5f)
+        rect.localEulerAngles = new Vector3(0f, 0f, 360f);
     }
 }
 
