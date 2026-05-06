@@ -9,18 +9,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[HarmonyPatch(typeof(InfiniteTrackSelectionOption))]
-public static class InfiniteTrackSelectionPatch
-{
-    [HarmonyPatch(nameof(InfiniteTrackSelectionOption.SetDifficulty))]
-    [HarmonyPostfix]
-    public static void SetDifficulty(InfiniteTrackSelectionOption __instance)
-    {
-        __instance._fullComboObject.SetActive(true);
-    }
-}
-
-
 [HarmonyPatch(typeof(CustomTrackSelectionOption))]
 public static class CustomTrackSelectionPatch
 {
@@ -36,11 +24,11 @@ public static class CustomTrackSelectionPatch
             return;
         }
 
-        if (!CustomFCPlugin.FCObject)
+        if (!CustomFCPlugin.CustomFCLabel)
             InitFCTagGameObj();
 
         Transform background = __instance.transform.Find("BounceContainer/Background");
-        GameObject FCInstance = Object.Instantiate(CustomFCPlugin.FCObject);
+        GameObject FCInstance = Object.Instantiate(CustomFCPlugin.CustomFCLabel);
         FCInstance.transform.SetParent(background);
         FCInstance.SetActive(false);
         RectTransform rect = FCInstance.GetComponent<RectTransform>();
@@ -78,7 +66,7 @@ public static class CustomTrackSelectionPatch
         tmp.color = new Color(1, 1, 1);
         tmp.margin = new Vector4(40, 5, 0, 0); // Hand tuned!
 
-        CustomFCPlugin.FCObject = myFCTag;
+        CustomFCPlugin.CustomFCLabel = myFCTag;
     }
 }
 
