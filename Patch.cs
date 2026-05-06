@@ -16,31 +16,21 @@ public static class CustomTrackSelectionPatch
     [HarmonyPostfix]
     public static void SetDifficulty(CustomTrackSelectionOption __instance, Difficulty selectedDifficulty)
     {
-        Transform FCTagTransform = __instance.transform.Find("BounceContainer/Background/FCTag(Clone)");
-        if (FCTagTransform)
+        Transform FCLabel = __instance.transform.Find("BounceContainer/Background/FCTag(Clone)");
+        if (FCLabel)
         {
-            GameObject FCTag = FCTagTransform.gameObject;
-            FCTag.SetActive(PlayerDataUtil.GetWasFullClearedByDifficulty(__instance._levelId, selectedDifficulty));
-            return;
+            FCLabel.gameObject.SetActive(PlayerDataUtil.GetWasFullClearedByDifficulty(__instance._levelId, selectedDifficulty));
         }
+        else
+        {
+            if (!CustomFCPlugin.BaseFCLabel)
+                CreateBaseFCLabel();
 
-        if (!CustomFCPlugin.CustomFCLabel)
-            InitFCTagGameObj();
-
-        Transform background = __instance.transform.Find("BounceContainer/Background");
-        GameObject FCInstance = Object.Instantiate(CustomFCPlugin.CustomFCLabel);
-        FCInstance.transform.SetParent(background);
-        FCInstance.SetActive(false);
-        RectTransform rect = FCInstance.GetComponent<RectTransform>();
-        rect.pivot = new Vector2(1f, 0f);
-        rect.anchorMin = new Vector2(0.991f, 0.9116f);
-        rect.anchorMax = new Vector2(0.991f, 0.9116f);
-        rect.sizeDelta = new Vector2(239.0032f, 28.9733f);
-        rect.localEulerAngles = new Vector3(0f, 0f, 360f);
-        rect.anchoredPosition = new Vector2(-0.5136f, -0.93f);
+            InstantiateFCLabel(parent: __instance.transform.Find("BounceContainer/Background"));
+        }
     }
 
-    private static void InitFCTagGameObj()
+    private static void CreateBaseFCLabel()
     {
         GameObject myFCTag = new("FCTag", typeof(RectTransform))
         {
@@ -66,7 +56,21 @@ public static class CustomTrackSelectionPatch
         tmp.color = new Color(1, 1, 1);
         tmp.margin = new Vector4(40, 5, 0, 0); // Hand tuned!
 
-        CustomFCPlugin.CustomFCLabel = myFCTag;
+        CustomFCPlugin.BaseFCLabel = myFCTag;
+    }
+
+    private static void InstantiateFCLabel(Transform parent)
+    {
+        GameObject FCInstance = Object.Instantiate(CustomFCPlugin.BaseFCLabel);
+        FCInstance.transform.SetParent(parent);
+        FCInstance.SetActive(false);
+        RectTransform rect = FCInstance.GetComponent<RectTransform>();
+        rect.pivot = new Vector2(1f, 0f);
+        rect.anchorMin = new Vector2(0.991f, 0.9116f);
+        rect.anchorMax = new Vector2(0.991f, 0.9116f);
+        rect.sizeDelta = new Vector2(239.0032f, 28.9733f);
+        rect.localEulerAngles = new Vector3(0f, 0f, 360f);
+        rect.anchoredPosition = new Vector2(-0.5136f, -0.93f);
     }
 }
 
