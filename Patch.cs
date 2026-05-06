@@ -37,7 +37,7 @@ public static class CustomTrackSelectionPatch
         }
 
         if (!CustomFCPlugin.FCObject)
-            initFCTagGameObj();
+            InitFCTagGameObj();
 
         Transform background = __instance.transform.Find("BounceContainer/Background");
         GameObject FCInstance = Object.Instantiate(CustomFCPlugin.FCObject);
@@ -52,10 +52,12 @@ public static class CustomTrackSelectionPatch
         rect.anchoredPosition = new Vector2(-0.5136f, -0.93f);
     }
 
-    private static void initFCTagGameObj()
+    private static void InitFCTagGameObj()
     {
-        GameObject myFCTag = new("FCTag", typeof(RectTransform));
-        myFCTag.name = "FCTag";
+        GameObject myFCTag = new("FCTag", typeof(RectTransform))
+        {
+            name = "FCTag"
+        };
 
         Image img = myFCTag.AddComponent<Image>();
         img.sprite = Resources.FindObjectsOfTypeAll<Sprite>().First(sprite => sprite.name == "ComboTag");
