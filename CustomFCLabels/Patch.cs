@@ -8,17 +8,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[HarmonyPatch(typeof(CustomTrackSelectionOption))]
-public static class CustomTrackSelectionPatch
+[HarmonyPatch(typeof(CustomTrackSelectionOption), "SetDifficulty")]
+static class CustomTrackSelectionPatch
 {
-    [HarmonyPatch(nameof(CustomTrackSelectionOption.SetDifficulty))]
-    public static void Postfix(CustomTrackSelectionOption __instance, Difficulty selectedDifficulty)
+    static GameObject LabelObj;
+
+    static void Postfix(CustomTrackSelectionOption __instance, Difficulty selectedDifficulty)
     {
         Transform FCLabel = __instance.transform.Find("BounceContainer/Background/FCTag(Clone)");
         if (FCLabel == null)
         {
-            if (!CustomFCPlugin.BaseFCLabel)
-                CreateBaseFCLabel();
+            if (!LabelObj)
+                BuildCustomFCLabel();
 
             FCLabel = InstantiateFCLabel(parent: __instance.transform.Find("BounceContainer/Background"));
         }
@@ -26,7 +27,7 @@ public static class CustomTrackSelectionPatch
         FCLabel.gameObject.SetActive(PlayerDataUtil.GetWasFullClearedByDifficulty(__instance._levelId, selectedDifficulty));
     }
 
-    private static void CreateBaseFCLabel()
+    static void BuildCustomFCLabel()
     {
         GameObject myFCTag = new("FCTag", typeof(RectTransform))
         {
@@ -55,13 +56,13 @@ public static class CustomTrackSelectionPatch
         // This had to be hand tuned to nudge text into center from left
         tmp.margin = new Vector4(40, 5, 0, 0);
 
-        CustomFCPlugin.BaseFCLabel = myFCTag;
+        LabelObj = myFCTag;
     }
 
-    private static Transform InstantiateFCLabel(Transform parent)
+    static Transform InstantiateFCLabel(Transform parent)
     {
         // Values are copied from inspecting object in base game..
-        GameObject FCInstance = Object.Instantiate(CustomFCPlugin.BaseFCLabel);
+        GameObject FCInstance = Object.Instantiate(LabelObj);
         FCInstance.transform.SetParent(parent);
         FCInstance.SetActive(false);
         RectTransform rect = FCInstance.GetComponent<RectTransform>();
