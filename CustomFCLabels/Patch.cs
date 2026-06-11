@@ -1,7 +1,5 @@
 using System.IO;
 using System.Linq;
-using CustomFC;
-using HarmonyLib;
 using Shared;
 using Shared.PlayerData;
 using Shared.TrackSelection;
@@ -13,8 +11,7 @@ using UnityEngine.UI;
 public static class CustomTrackSelectionPatch
 {
     [HarmonyPatch(nameof(CustomTrackSelectionOption.SetDifficulty))]
-    [HarmonyPostfix]
-    public static void SetDifficulty(CustomTrackSelectionOption __instance, Difficulty selectedDifficulty)
+    public static void Postfix(CustomTrackSelectionOption __instance, Difficulty selectedDifficulty)
     {
         Transform FCLabel = __instance.transform.Find("BounceContainer/Background/FCTag(Clone)");
         if (FCLabel == null)

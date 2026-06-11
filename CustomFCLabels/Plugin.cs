@@ -1,13 +1,9 @@
 using BepInEx;
-using BepInEx.Logging;
-using HarmonyLib;
-using RiftOfTheNecroManager;
+using CustomFCLabels;
 using UnityEngine;
 
-namespace CustomFC;
-
-[BepInPlugin("rotn.koki.CustomFC", "Custom Track FC Label", "1.0.2")]
-public class CustomFCPlugin : RiftPlugin
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+public class CustomFCPlugin : BaseUnityPlugin
 {
     internal static GameObject BaseFCLabel;
 }
