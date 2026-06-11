@@ -1,10 +1,12 @@
 using BepInEx;
 using CustomFCLabels;
 using HarmonyLib;
+using RiftOfTheNecroManager;
 using UnityEngine;
 
 // [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-// class CustomFCPlugin : BaseUnityPlugin
+// [BepInDependency("com.lalabuff.necrodancer.necromanager", BepInDependency.DependencyFlags.SoftDependency)]
+// class CustomFCPlugin : RiftPlugin
 // {
 //     internal static GameObject BaseFCLabel;
 // }
